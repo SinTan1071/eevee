@@ -1,0 +1,21 @@
+{
+  "name": "ng-ueditor",
+  "version": "0.3.0",
+  "description": "AngularJS directive for UEditor.",
+  "author": "https://github.com/astray-git/ng-ueditor/graphs/contributors",
+  "license": "MIT",
+  "main": "./dist/ng-ueditor.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "demo*",
+    "index.html",
+    "gulpfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "~1.3.x",
+    "ueditor-bower": "1.4.3"
+  }
+}

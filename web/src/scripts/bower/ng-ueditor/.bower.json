@@ -1,0 +1,32 @@
+{
+  "name": "ng-ueditor",
+  "version": "0.3.0",
+  "description": "AngularJS directive for UEditor.",
+  "author": "https://github.com/astray-git/ng-ueditor/graphs/contributors",
+  "license": "MIT",
+  "main": "./dist/ng-ueditor.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "demo*",
+    "index.html",
+    "gulpfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "~1.3.x",
+    "ueditor-bower": "1.4.3"
+  },
+  "homepage": "https://github.com/Astray-git/ng-ueditor",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "95da281468c59ac31f43161c69b9d848a53e9539"
+  },
+  "_source": "git://github.com/Astray-git/ng-ueditor.git",
+  "_target": "^0.3.0",
+  "_originalSource": "ng-ueditor",
+  "_direct": true
+}
