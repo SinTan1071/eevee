@@ -1,0 +1,177 @@
+html {
+  height: 100%;
+}
+
+body {
+  background: #f4f4f5;
+  height: 100%;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  height: 100%;
+  display: none;
+}
+
+.header {
+  margin: 0;
+}
+.header .navbar {
+  background: #2CA6B7;
+  border-radius: 0;
+  height: 54px;
+}
+.header .navbar a {
+  color: #fff;
+}
+.header .navbar a:hover {
+  color: #D8D8D8;
+}
+.header .navbar-brand {
+  width: 210px;
+  margin-right: 0;
+  text-align: left;
+}
+
+.sidebar-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 54px;
+  width: 210px;
+  height: 100%;
+  overflow-y: hidden;
+}
+.sidebar-wrapper .sidebar {
+  height: 100%;
+}
+.sidebar-wrapper .nav {
+  height: 100%;
+}
+.sidebar-wrapper .nav li.nav-header {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 16px;
+  font-size: 12px;
+}
+.sidebar-wrapper .nav li.nav-item {
+  list-style: none;
+}
+.sidebar-wrapper .nav li.nav-item.active > a {
+  background: #fff;
+}
+.sidebar-wrapper .nav li.nav-item.active span:after {
+  content: '\25cc';
+}
+.sidebar-wrapper .nav li.nav-item ul {
+  padding: 0;
+}
+.sidebar-wrapper .nav li.nav-item ul a {
+  padding-left: 40px;
+}
+.sidebar-wrapper .nav li.nav-item ul li.nav-item a {
+  height: 30px;
+  line-height: 30px;
+}
+.sidebar-wrapper .nav li.nav-item a {
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  padding-left: 30px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #333;
+}
+.sidebar-wrapper .nav li.nav-item a:hover {
+  background: #fff;
+}
+.sidebar-wrapper .nav li.nav-item a span {
+  float: right;
+  margin-right: 20px;
+  font-size: 19px;
+  font-weight: bolder;
+}
+.sidebar-wrapper .nav li.nav-item a span:after {
+  content: '\25be';
+}
+.sidebar-wrapper .nav li.nav-item a i {
+  margin-right: 10px;
+}
+
+.content-wrapper {
+  margin: 0 0 0 210px;
+  border-left: 1px solid #D2D6DE;
+  overflow: hidden;
+  background: #fff;
+  height: 100%;
+}
+.content {
+  height: 100%;
+  padding: 0 15px;
+  overflow: scroll;
+}
+
+.content-header {
+  height: 45px;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.content-header-title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/*******
+    *
+    * title: base styles
+    * creat-by: bigfact
+    * creat-at: 2016.01.17
+    *
+*******/
+.base-wrapper {
+  height: 100%;
+  width: 100%;
+  min-width: 1200px;
+}
+.base-wrapper:empty {
+  display: none;
+}
+
+.login-page, .regist-page {
+  width: 100%;
+  height: 100%;
+  padding: 15% 0 0 0;
+  background: #ccc;
+}
+.login-page .form, .regist-page .form {
+  width: 35%;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+}
+.login-page .form .title, .regist-page .form .title {
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+.login-page .form .input-group-addon, .regist-page .form .input-group-addon {
+  border-right: none;
+  background-color: #fff;
+}
+.login-page .form .form-control, .regist-page .form .form-control {
+  border-left: none;
+}
+.login-page .form .form-control:focus, .regist-page .form .form-control:focus {
+  border: 1px solid #ccc;
+  border-left: none;
+}
+.login-page .form .row, .regist-page .form .row {
+  margin: 15px 0 0 0;
+  text-align: center;
+}

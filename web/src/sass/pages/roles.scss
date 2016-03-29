@@ -1,0 +1,26 @@
+@import "../components/colors";
+@import "../components/layout";
+
+// role 编辑器容器
+#role-editor {
+  width: 50%;
+  .content.block {
+    padding: 20px 40px;
+  }
+
+  .ms-container{
+      width: 100%;
+  }
+
+.ms-container .ms-list {
+    min-height: 300px !important;
+    height: auto !important;
+}
+  // 权限选项组字体
+  li.ms-optgroup-label {
+    color: #131313 !important;
+  }
+  li.ms-elem-selectable{
+      color: #9A9A9A !important;
+  }
+}

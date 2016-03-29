@@ -1,0 +1,129 @@
+<div id="users" class="layout content" ng-controller="users">
+
+
+  <div class="ui secondary layout menu">
+    <div class="item title">
+      用户
+    </div>
+
+    <div class="right menu">
+      <div class="item handle">
+        <i class="ui icon plus" ng-click="openUserEditor()"></i>
+      </div>
+      <div class="item handle">
+        <i class="ui icon ellipsis vertical"></i>
+      </div>
+    </div>
+  </div>
+  <div class="handles">
+    <div class="ui dropdown icon button handle">
+      更多操作
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item"><i class="edit icon"></i> Edit Post</div>
+        <div class="item"><i class="delete icon"></i> Remove Post</div>
+        <div class="item"><i class="hide icon"></i> Hide Post</div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="item handle">
+        <span id="users-count">第1-20位用户，共92位</span>
+      </div>
+      <div class="ui buttons handle paging">
+        <button class="ui button"><i class="icon chevron left"></i></button>
+        <button class="ui button"><i class="icon chevron right"></i></button>
+      </div>
+    </div>
+  </div>
+  <table class="ui celled striped table layout no-border click" cellspacing="1" cellpadding="0">
+    <thead>
+      <tr>
+        <th>
+          <input type="checkbox" value="">
+        </th>
+        <th>头像</th>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>手机号码</th>
+        <th>状态</th>
+        <th>角色</th>
+        <th>日期</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>
+          <input type="checkbox" value="">
+        </th>
+        <th>头像</th>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>手机号码</th>
+        <th>状态</th>
+        <th>角色</th>
+        <th>日期</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr>
+        <td class="">
+          <input type="checkbox">
+        </td>
+        <td>
+          <img src="images/photos/bob.jpeg" class="avatar" alt="">
+        </td>
+        <td>
+          bob
+        </td>
+        <td class="right aligned collapsing">bob@gmail.com</td>
+        <td>18817788733</td>
+        <td>管理员</td>
+        <td>
+            <span class="status">正常</span>
+        </td>
+        <td>2016-01-04 15:26</td>
+      </tr>
+      <tr class="">
+        <td>
+          <input type="checkbox">
+        </td>
+        <td>
+          <img src="images/photos/jobs.jpeg" class="avatar" alt="">
+        </td>
+        <td>
+          乔布斯
+        </td>
+        <td class="right aligned">jobs@qq.com</td>
+        <td>18817788733</td>
+        <td>管理员</td>
+        <td>正常</td>
+        <td>2016-01-04 15:26</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+  <div class="handles">
+    <div class="ui dropdown icon button handle">
+      更多操作
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item"><i class="edit icon"></i> Edit Post</div>
+        <div class="item"><i class="delete icon"></i> Remove Post</div>
+        <div class="item"><i class="hide icon"></i> Hide Post</div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="item handle">
+        <span id="users-count">第1-20位用户，共92位</span>
+      </div>
+      <div class="ui buttons handle paging">
+        <button class="ui button"><i class="icon chevron left"></i></button>
+        <button class="ui button"><i class="icon chevron right"></i></button>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

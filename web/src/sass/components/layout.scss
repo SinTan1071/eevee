@@ -1,0 +1,354 @@
+@charset "utf-8";
+@import "colors";
+
+// layout header 高度
+$layout_header_height: 55px;
+
+// layout header logo 展示区域宽度
+$layout_header_brand_width: 210px;
+
+// layout 正文 header 高度
+$layout_wrapper_header_height: 95px;
+
+// layout父容器
+html,
+body,
+#layout {
+  height: 100%;
+  overflow: hidden;
+}
+#layout-header {
+  position: fixed;
+  width: 100%;
+  height: $layout_header_height;
+  z-index: 999999;
+  border-radius: 0;
+  .header {
+    width: $layout_header_brand_width;
+  }
+}
+#layout-sidebar {
+  position: fixed;
+  top: 0;
+  padding-top: $layout_header_height;
+  width: $layout_header_brand_width;
+  height: 100%;
+  z-index: 999998;
+  overflow: scroll;
+  .menu {
+    width: $layout_header_brand_width;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+    border-top: none;
+    .item {
+      background: none;
+      list-style: none;
+      padding: 0;
+
+      // 去掉semantic自带的li.item的边线
+      &:before {
+        height: 0 !important;
+      }
+      >a {
+        color: #333;
+        display: block;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        &:hover {
+          background: $c4;
+        }
+        padding-left: 30px;
+      }
+      i.icon {
+        margin-right: 5px;
+      }
+      &.active {
+        >a {
+          background: $c4;
+        }
+        span:after {
+          content: '\25cc';
+        }
+      }
+      span {
+        position: absolute;
+        right: 25px;
+        &:after {
+          content: '\25be';
+          font-size: 18px;
+        }
+      }
+      ul {
+        padding: 0;
+        .item {
+          padding: 0;
+          a {
+            height: 30px;
+            line-height: 30px;
+            padding-left: 50px;
+            background: #fff;
+          }
+          &.active {
+            a {
+              background: $c4;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+#layout-placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding-top: $layout_header_height;
+  padding-left: $layout_header_brand_width;
+  overflow: hidden;
+}
+#layout-view {
+  position: relative;
+  background: rgb(237, 236, 236);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+// 布局容器
+.layout.wrapper {
+  position: relative;
+  height: 100%;
+  padding-top: $layout_wrapper_header_height;
+}
+
+// 布局头部
+.layout.header {
+  position: absolute;
+  z-index: 999999;
+  height: $layout_wrapper_header_height;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 10px 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+
+// 布局正文
+.layout.content {
+  height: 100%;
+  overflow-y: scroll;
+  padding: 20px 30px;
+  // 页面 title
+  .item.title{
+      font-size: 21px;
+      margin-left: -1px;
+  }
+}
+
+// 页面正文选项
+.layout.menu {
+  margin-bottom: 3px;
+  >.item {
+    padding-left: 7px !important;
+  }
+}
+
+// ***辅助样式***
+// 页面正文操作标签
+.handle.item {
+  padding: 0 !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  &:last-child {
+    margin-right: 5px !important;
+  }
+  i.icon {
+    display: block;
+    width: 25px;
+    height: 25px;
+    line-height: 26px;
+    margin: 0 !important;
+    border-radius: 20px;
+    &:hover {
+      background: #D4D4D5;
+    }
+  }
+}
+
+// 页面正文表格
+.layout.table {
+  margin-top: 0;
+  border-radius: 0;
+  th {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+}
+
+// 内容无边栏的表格
+.table.no-border {
+  th,
+  td {
+    border: none !important;
+  }
+}
+
+// ***操作按钮***
+// 页面正文操作容器
+.handles {
+  margin-bottom: 5px;
+  font-size: 12px;
+  .right {
+    float: right;
+  }
+
+  // 操作条目，用于显示文字信息等
+  .handle.item {
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 10px !important;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+// 页面正文操作按钮
+.handle.button {
+  border: 1px solid $border-color;
+  background: #F3F3F3;
+  border-radius: 3px;
+  height: 32px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+// 页面正文操作按钮组
+.handle.buttons {
+  @extend .button.handle;
+  .button {
+    background: none;
+    line-height: 1;
+    padding: 22px;
+    padding-top: 10px;
+    font-size: 12px;
+    border-radius: 0 !important;
+    &:hover {
+      background: #D4D4D5;
+    }
+  }
+  .dropdown {
+    padding-left: 5px;
+    padding-right: 7px;
+  }
+}
+
+// 页面正文操作分页
+.handle.paging {
+  .button {
+    padding-left: 10px;
+    padding-right: 10px;
+    &:first-child {
+      border-right: 1px solid $border-color;
+    }
+    &:last-child {
+      padding-left: 9px;
+      margin-right: -3px;
+    }
+  }
+}
+
+// ***表格列表***
+.table.click {
+  width: 100%;
+
+  // 合并表格tr边框
+  tbody {
+    tr {
+      position: relative;
+      td {
+        border-width: 3px !important;
+        border-color: rgba(255, 255, 255, 0) !important;
+        border-style: none none!important;
+        &:first-child {
+          border-left-style: solid !important;
+        }
+      }
+      &:hover {
+        background: rgba(230, 230, 230, 0.35) !important;
+      }
+      &.click {
+        background: rgba(230, 230, 230, 0.65) !important;
+        td {
+          border-color: $c2 !important;
+        }
+      }
+    }
+  }
+  .cover {
+    position: absolute;
+
+    //   width: 100%;
+    //   height: 100%;
+    top: 0;
+    left: 0;
+    background: #333;
+    z-index: 999999;
+  }
+}
+
+// ***条目样式***
+.layout.items {
+  margin-top: 0;
+  margin-bottom: 15px;
+  .item {
+    position: relative;
+    background: #fff;
+    margin: 0;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    transition: background 0.2s;
+    font-size: 13px;
+    color: #9CACC3;
+    a {
+      color: #9CACC3;
+    }
+    &:hover {
+      background: #e7edf3;
+    }
+
+    // 封面
+    .image {
+      img {
+        border-radius: 5px;
+      }
+    }
+
+    // 右侧浮动div
+    div.float {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      text-align: right;
+      a {
+        margin-left: 15px;
+      }
+      .post-status {
+        display: inline-block;
+        text-align: center;
+        background: #5AC169;
+        padding: 2px 8px;
+        border-radius: 5px;
+        color: #fff;
+      }
+    }
+
+    // 标题
+    .header {
+      font-size: 15px;
+    }
+  }
+}

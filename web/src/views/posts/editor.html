@@ -1,0 +1,47 @@
+<div id="post-editor" class="editor slide">
+
+  <div class="ui secondary menu">
+    <div class="item">
+      编辑文章
+    </div>
+
+    <div class="right menu">
+      <div class="item label">
+        <i class="icon checkmark"></i>
+      </div>
+      <div class="item label">
+        <i class="icon share" ng-click="closePostEditor()"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui card">
+    <div class="content block">
+      <div class="ui form">
+        <div class="field">
+          <label>标题</label>
+          <input type="text" placeholder="">
+        </div>
+        <div class="field">
+          <label>分类栏目</label>
+          <input type="text" placeholder="">
+        </div>
+        <div class="field">
+          <label>摘要</label>
+          <textarea rows="2" cols="3"></textarea>
+        </div>
+        <ueditor config="editorConfig" ng-model="content">
+          <p>
+            <span style="font-size: 36px;">大字</span>
+            <span style="color: rgb(255, 0, 0);">颜色</span>
+          </p>
+
+          <p>来点动画试试
+            <img src="http://img.baidu.com/hi/jx2/j_0013.gif" />
+          </p>
+        </ueditor>
+
+      </div>
+    </div>
+  </div>
+</div>

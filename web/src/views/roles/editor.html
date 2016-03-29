@@ -1,0 +1,61 @@
+<div id="role-editor" class="editor slide">
+
+  <div class="ui secondary menu">
+    <div class="item">
+      编辑角色
+    </div>
+
+    <div class="right menu">
+      <div class="item label">
+        <i class="icon checkmark"></i>
+      </div>
+      <div class="item label">
+        <i class="icon share" ng-click="closePostEditor()"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui card">
+    <div class="content block">
+      <div class="ui form">
+        <div class="field">
+          <label>角色名</label>
+          <input type="text" placeholder="">
+        </div>
+        <div class="field">
+          <label>标识符</label>
+          <input type="text" placeholder="">
+        </div>
+        <div class="field">
+          <label>描述</label>
+          <textarea rows="2" cols="3"></textarea>
+        </div>
+        <div class="field">
+          <label>分配权限</label>
+          <select id='pre-selected-options' multiple='multiple'>
+              <option value='system-permissions' disabled="">系统权限</option>
+              <option value='role-permissions' disabled="" selected="">角色权限</option>
+
+                <optgroup label='用户模块'>
+                  <option value='1'>添加用户</option>
+                  <option value='2'>删除用户</option>
+                </optgroup>
+                <optgroup label='内容模块'>
+                  <option value='3'>发布文章</option>
+                  <option value='4'>删除文章</option>
+                </optgroup>
+                <optgroup label='多媒体模块'>
+                  <option value='5'>上传文件</option>
+                  <option value='6'>编辑图片</option>
+                </optgroup>
+                <optgroup label='目录栏目模块'>
+                  <option value='7'>获取目录</option>
+                  <option value='8'>更新目录</option>
+                </optgroup>
+
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
