@@ -1,0 +1,36 @@
+{
+  "name": "lehu",
+  "description": "lehu content manage system.",
+  "keywords": ["lehu", "lehu cms", "cms"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=5.5.9",
+    "laravel/lumen-framework": "5.1.*",
+    "vlucas/phpdotenv": "~1.0",
+    "league/flysystem": "^1.0",
+    "illuminate/mail": "5.1.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "fzaninotto/faker": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "core/",
+      "Theme\\": "themes/",
+      "Plugin\\": "plugins/"
+    },
+    "classmap": [
+      "core/System/database/"
+    ]
+  },
+  "autoload-dev": {
+    "classmap": [
+      "core/Tests/"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
+}
