@@ -22,11 +22,9 @@ class UserController extends Controller
 
       $model = new User();
 
-      $params = $context->params();
+      $result = $model->getUser($context->params('user_id'));
 
-      $result = $model->getUsers($params);
-
-      // return $context->response($result);
+      return $context->response($result);
 
     }
 

@@ -22,7 +22,7 @@ return [
       ],
 
       // 用户模块
-      'post@users' => [
+      'post@user' => [
         'action' => 'UserController@post',
         'permission' => 'user.post',
         'type' => true,
@@ -32,10 +32,10 @@ return [
         'action' => 'UserController@getUsers',
         'permission' => 'user.get',
         ],
-        'get@user/:id' => [
-          'action' => 'UserController@getUser',
-          'permission' => 'user.get',
-        ],
+      'get@user' => [
+        'action' => 'UserController@getUser',
+        'permission' => 'user.get',
+      ],
 
       // 系统
       'get@system/install' => [

@@ -19,91 +19,75 @@ class Selector
         $this->query = $query;
     }
 
-    public function parse($args)
+    public function parse($params)
     {
-        foreach ($args as $key => $value) {
-            switch ($key) {
-            case 'where':
-              if (($where = $this->parseWhere($value)) !== true) {
-                  return $where;
-              }
-              break;
-            default:
-              break;
-          }
+        foreach ($params as $op => $param) {
+            switch ($op) {
+              case 'or':
+              case 'where':
+                if (is_array($param)) {
+                    foreach ($param as $value) {
+                        $this->parseWhere($op, $value);
+                    }
+                } else {
+                    $this->parseWhere($op, $param);
+                }
+                break;
+
+              case 'in':
+              case 'out':
+                $this->parseIn($op, $param);
+                break;
+
+              case 'between':
+              case 'outside':
+                $this->parseBetween($op, $param);
+                break;
+
+              case 'fields':
+                $this->query = $this->query->lists(explode(',', $param));
+                break;
+
+              case 'order':
+                $sets = explode(':', $param);
+                $this->query = $this->query->orderBy($sets[0], $sets[1]);
+                break;
+
+              case 'limit':
+                $this->query = $this->query->take($param);
+                break;
+
+              case 'offset':
+                $this->query = $this->query->skip($param);
+                break;
+
+              case 'first':
+                $this->query = $this->query->skip($param);
+                break;
+           }
         }
+
+        if (isset($params['first'])) {
+            return $this->query->first();
+        }
+
+        if (isset($params['count'])) {
+            return $this->query->first();
+        }
+
+        return $this->query->get();
     }
 
-    protected function parseWhere($arg)
+    protected function parseWhere($op, $param)
     {
-        $chars = preg_split('//u', trim($arg), -1);
-
-        $length = count($chars);
-
-        $tag = 0;   // 1 处理获取字段   2 获取操作符  3 寻找连接符  4 取SQL逻辑运算
-
-        $params = [];
-
-        $query = 'where';
-
-        $field = '';
-
-        $operator = '';
-
-        $param = '';
-
-        for ($i = 0; $i < $length - 1; ++$i) {
-            $char = $chars[$i];
-
-            if ($char == '(') {
-                $tag = 1;
-                continue;
-            }
-
-            if ($tag == 4) {
-                $query = $char != ' ' ? $query.$char : $query;
-            }
-
-            if ($tag == 3) {
-                $param .= $char;
-                if ($i < $length - 1 &&  $chars[$i + 1] == ')') {
-                    ++$i;
-
-                    $params[$query][] = [$field, $operator, trim($param)];
-
-                    list($query, $field, $operator, $param) = ['', '', '', ''];
-
-                    $tag = 4;
-                }
-                continue;
-            }
-
-            if ($tag == 2) {
-                $operator = $char != ' ' ? $operator.$char : $operator;
-
-                if (preg_match('/(<>|:>|<:|:|>|<)/', $operator)) {
-                    $tag = 3;
-                }
-                continue;
-            }
-
-            if ($tag == 1) {
-                $field = $char != ' ' ? $field.$char : $field;
-                if ($i < $length - 1 && in_array($chars[$i + 1], [':', '>', '<'])) {
-                    $tag = 2;
-                }
-                continue;
-            }
-
-            continue;
+        if ($op == 'or') {
+            $this->query = count($param) == 2 ?
+            $this->query->orWhere($param[0], $param[1]) :
+            $this->query->orWhere($param[0], $param[1], $param[2]);
+        } else {
+            $this->query = count($param) == 2 ?
+            $this->query->where($param[0], $param[1]) :
+            $this->query->where($param[0], $param[1], $param[2]);
         }
-        echo '<pre>';
-        print_r($params);
-        echo '</pre>';
-    }
-
-    protected function validateFieldChar($char)
-    {
-        return preg_match('/[a-zA-Z1-9|-|_]/', $char);
     }
 }

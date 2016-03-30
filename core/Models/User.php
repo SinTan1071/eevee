@@ -10,12 +10,9 @@
 namespace Core\Models;
 
 use Validator;
-use Core\Models\Selector;
 
 class User extends Model
 {
-    protected $table = 'users';
-
     protected $user;
 
     /**
@@ -27,11 +24,11 @@ class User extends Model
      *
      * @return result 成功返回创建后的用户
      */
-    public function add($user)
+    public function addUser($user)
     {
         $this->initializeUser($user);
 
-        if ($validateResult = $this->validateUser() !== true) {
+        if (($validateResult = $this->validateUser()) !== true) {
             return $this->result('validateError', $validateResult);
         }
 
@@ -43,11 +40,11 @@ class User extends Model
 
           $this->processPassword();
 
-          if ($this->create($this->user)) {
-              return $this->get($this->user['id']);
+          if ($this->getTable('USER')->insert($this->user)) {
+              return $this->getUser($this->user['id']);
           };
 
-          return false;
+          return $this->result('addUserError');
 
         });
 
@@ -78,11 +75,13 @@ class User extends Model
      */
     public function getUser($user_id, $password = false)
     {
-        $user = $this->where('id', $user_id)->first();
-        if($user&&!$password){
-          unset($user['password']);
+        $user = $this->getTable('USER')->where('id', $user_id)->first();
+
+        if ($user && !$password) {
+            unset($user->password);
         }
-        return $user;
+
+        return $this->result('success', $user);
     }
 
     /**
@@ -94,11 +93,9 @@ class User extends Model
      */
     public function getUsers($params, $password = false)
     {
-        $selector = new Selector();
+        // $selector = new Selector($this->getQuery('USER'));
 
-        $result = $selector->parse($params);
-
-        print_r($result);
+        // $result = $selector->parse($params);
 
         // $result = $this->resource($this->getTable('USER'), $params);
 
@@ -115,9 +112,36 @@ class User extends Model
         return $params;
     }
 
-    public function generateToken()
+    public function saveUserToken($user, $client='', $expire = true)
     {
-        return $this->getID();
+        $row = [
+          'user_token' => uniqid(),
+          'user_id' => $user->id,
+          'app_id' => $client->ident,
+        ];
+
+        $table = $this->getTable('USERTOKEN');
+
+        if ($table->where('user_id', $user->id)->first()) {
+            $table->where('user_id', $user->id)->update($row);
+        } else {
+            return $this->getTable('USERTOKEN')->insert($row);
+        }
+
+        return $row['user_token'];
+    }
+
+
+
+    public function getUserByToken($token)
+    {
+        $table = $this->getTable('USERTOKEN');
+
+        if ($row = $table->where('user_token', $token)->first()) {
+            return $row;
+        }
+
+        return false;
     }
 
     /**
@@ -140,12 +164,12 @@ class User extends Model
 
     protected function validateUser()
     {
-        $table = $this->getTable('USER');
+        $table = $this->getTableName('USER');
 
         $validator = Validator::make($this->user, [
                 'username' => "required|unique:$table|max:255",
                 'password' => 'required|min:6',
-                'mail' => "required|unique:$table|max:255",
+                'email' => "required|unique:$table|max:255",
                 'role' => 'required',
             ]);
 
@@ -166,6 +190,8 @@ class User extends Model
         $this->user['password'] = $this->encryptPassword($this->user['password']);
     }
 
-
-
+    protected function encryptPassword($password)
+    {
+        return md5($password);
+    }
 }

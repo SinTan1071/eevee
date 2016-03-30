@@ -2,9 +2,9 @@
 
 namespace Core\Http\Controllers;
 
+use Core\Models\User;
 use Core\Services\Status;
 use Core\Services\Context;
-use Core\Http\Models\User;
 
 class AuthController extends Controller
 {
@@ -67,13 +67,13 @@ class AuthController extends Controller
     }
 
     // 用户注册
-    public function register(Context $context, Status $status)
+    public function register(Context $context)
     {
         $data = $context->data();
 
         $userModel = new User();
 
-        $result = $userModel->post($data);
+        $result = $userModel->addUser($data);
 
         return $context->response($result);
     }

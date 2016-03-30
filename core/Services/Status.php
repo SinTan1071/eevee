@@ -14,31 +14,11 @@ namespace Core\Services;
 class Status
 {
     /**
-     * 响应结果
-     * 存放请求过程中产生的处理结果.
-     *
-     * @var stdClass
-     */
-    protected $result;
-
-    /**
      * 状态数组.
      *
      * @var array
      */
-    protected $statuses = [];
-
-    /**
-     * 构造函数
-     * 解析状态存储文件，获取系统定义的状态集，
-     * 将获取到的结果保存在对象属性中，供后续函数获取状态信息使用.
-     *
-     * @TODO 将状态码放入缓存中，通过查找算法实现快速获取状态信息
-     */
-    public function __construct()
-    {
-        $this->statuses = config('statuses');
-    }
+    protected static $statuses;
 
     /**
      * 响应结果函数
@@ -50,11 +30,14 @@ class Status
      *
      * @return stdClass 返回结果对象
      */
-    public function result($status = false, $data = null)
+    public static function result($status = false, $data = null)
     {
+
+        self::$statuses = config('statuses');
+
         $result = new \stdClass();
-        $result->code = $this->getCode($status);
-        $result->message = $this->getMessage($status);
+        $result->code = self::getCode($status);
+        $result->message = self::getMessage($status);
         $result->data = $data;
 
         return $result;
@@ -66,14 +49,14 @@ class Status
      *
      * @return int 状态码
      */
-    protected function getCode($status)
+    protected static function getCode($status)
     {
-        if (!$this->statusExists($status)) {
+        if (!self::statusExists($status)) {
             return false;
         }
 
         if (is_string($status)) {
-            return $this->statuses[$status];
+            return self::$statuses[$status];
         }
 
         return $status;
@@ -86,20 +69,21 @@ class Status
      *
      * @return bool
      */
-    protected function statusExists($status)
+    protected static function statusExists($status)
     {
+
         if (is_string($status)) {
-            if (array_key_exists($status, $this->statuses)) {
+            if (array_key_exists($status, self::$statuses)) {
                 return true;
             }
-            $this->report($status);
+            self::report($status);
         }
 
         if (is_int($status)) {
-            if (in_array($status, $this->statuses)) {
+            if (in_array($status, self::$statuses)) {
                 return true;
             }
-            $this->report($status);
+            self::report($status);
         }
 
         return false;
@@ -114,9 +98,9 @@ class Status
      *
      * @return string 状态消息
      */
-    protected function getMessage($status)
+    protected static function getMessage($status)
     {
-        return trans('status.'.$this->getStatusName($status));
+        return trans('status.'.self::getStatusName($status));
     }
 
      /**
@@ -126,10 +110,10 @@ class Status
       *
       * @return string/false        状态名
       */
-     protected function getStatusName($status)
+     protected static function getStatusName($status)
      {
          if (is_int($status)) {
-             return array_search($status, $this->statuses);
+             return array_search($status, self::$statuses);
          }
 
          return $status;
@@ -144,7 +128,7 @@ class Status
      *
      * TODO 完成不存在状态的记录
      */
-    protected function report($status)
+    protected static function report($status)
     {
     }
 }

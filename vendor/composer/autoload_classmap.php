@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CreateAccessTokensTable' => $baseDir . '/core/System/database/migrations/2016_03_14_090160_create_access_tokens_table.php',
     'CreatePermissionsRelationshipsTable' => $baseDir . '/core/System/database/migrations/2016_03_03_133758_create_permissions_relationships_table.php',
     'CreatePermissionsTable' => $baseDir . '/core/System/database/migrations/2016_03_16_160109_create_permissions_table.php',
     'CreateResoucesTable' => $baseDir . '/core/System/database/migrations/2016_03_17_1412079_create_resouces_table.php',
@@ -14,7 +13,8 @@ return array(
     'CreateRolesTable' => $baseDir . '/core/System/database/migrations/2016_03_03_130534_create_roles_table.php',
     'CreateTermsRelationshipsTable' => $baseDir . '/core/System/database/migrations/2016_03_17_031635_create_terms_relationships_table.php',
     'CreateTermsTable' => $baseDir . '/core/System/database/migrations/2016_03_17_031600_create_terms_table.php',
-    'CreateUsersTable' => $baseDir . '/core/System/database/migrations/2016_03_03_130433_create_users_table.php',
+    'CreateUserTokensTable' => $baseDir . '/core/System/database/migrations/2016_03_29_173434_create_user_tokens_table.php',
+    'CreateUsersTable' => $baseDir . '/core/System/database/migrations/2016_03_03_130434_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/core/System/database/seeds/DatabaseSeeder.php',
     'ExampleTest' => $baseDir . '/core/Tests/ExampleTest.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

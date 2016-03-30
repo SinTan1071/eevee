@@ -3,9 +3,9 @@
 namespace Core\Models;
 
 use DB;
-use Illuminate\Database\Eloquent\Model as Basic;
+use Core\Services\Status;
 
-class Model extends Basic
+class Model extends DB
 {
     /**
      * 资源数据表.
@@ -13,6 +13,11 @@ class Model extends Basic
      * @var array core\System\config\resources.php
      */
     protected $resources;
+
+    public function __construct()
+    {
+        $this->resources = config('resources');
+    }
 
    /**
     * 模型事务处理，支持DB和Eloquent.
@@ -47,7 +52,7 @@ class Model extends Basic
      */
     public function getID()
     {
-        return substr(sha1(uniqid(mt_rand(1, 1000000))), 8, 24);
+        return md5(sha1(uniqid(mt_rand(1, 1000000))));
     }
 
     /**
@@ -59,8 +64,6 @@ class Model extends Basic
      */
     public function resource($resource)
     {
-        $this->resources = config('resources');
-
         if (key_exists($resource, $this->resources)) {
             return $this->resources[$resource];
         } else {
@@ -75,12 +78,29 @@ class Model extends Basic
      *
      * @return DB::table()
      */
-    public function getQuery($resource)
+    public function getTable($resource)
+    {
+        return DB::table($this->getTableName($resource));
+    }
+
+    /**
+     * 获取数据表名.
+     *
+     * @param string $resource
+     *
+     * @return string
+     */
+    public function getTableName($resource)
     {
         if (key_exists($resource, $this->resources)) {
-            return DB::table($this->resources[$resource]);
+            return $this->resources[$resource];
         } else {
             throw \Exception("Resource $resource is not exists");
         }
+    }
+
+    public function result($status, $data = [])
+    {
+        return Status::result($status, $data);
     }
 }
