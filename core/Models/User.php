@@ -188,6 +188,13 @@ class User extends Model
         return $result ? $row['user_token'] : false;
     }
 
+    /**
+     * 通过用户TOKEN获取用户.
+     *
+     * @param string $token
+     *
+     * @return $user
+     */
     public function getUserByToken($token)
     {
         $table = $this->resource('USERTOKEN');
