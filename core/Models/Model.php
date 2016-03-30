@@ -50,25 +50,9 @@ class Model extends DB
      *
      * @return string
      */
-    public function getID()
+    public function id()
     {
         return md5(sha1(uniqid(mt_rand(1, 1000000))));
-    }
-
-    /**
-     * 获取资源数据表.
-     *
-     * @param string $resource
-     *
-     * @return string
-     */
-    public function resource($resource)
-    {
-        if (key_exists($resource, $this->resources)) {
-            return $this->resources[$resource];
-        } else {
-            throw \Exception("Resource $resource is not exists");
-        }
     }
 
     /**
@@ -78,9 +62,9 @@ class Model extends DB
      *
      * @return DB::table()
      */
-    public function getTable($resource)
+    public function resource($resource)
     {
-        return DB::table($this->getTableName($resource));
+        return DB::table($this->table($resource));
     }
 
     /**
@@ -90,12 +74,12 @@ class Model extends DB
      *
      * @return string
      */
-    public function getTableName($resource)
+    public function table($resource)
     {
         if (key_exists($resource, $this->resources)) {
             return $this->resources[$resource];
         } else {
-            throw \Exception("Resource $resource is not exists");
+            throw new \Exception("Resource table: $resource does not exist.");
         }
     }
 

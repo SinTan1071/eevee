@@ -35,17 +35,33 @@ class Context
      *
      * @return array GET请求参数
      */
-    public function params($field = false)
+    public function params($field = false, $default = false)
     {
         if ($field !== false) {
-            if (isset($_GET[$field])) {
-                return $_GET[$field];
-            }
-
-            return false;
+            return isset($_GET[$field]) ? $_GET[$field] : $default;
         }
 
         return $_GET;
+    }
+
+    /**
+     * 获取请求头.
+     *
+     * @param string $header
+     * @param bool   $require
+     *
+     * @return string
+     */
+    public function header($header, $require = false)
+    {
+        // $value = $this->request->header($header);
+        $value = 'ra';
+
+        if (!$value && $require) {
+            throw new \Exception("The request header $header is required.", 1);
+        }
+
+        return $value;
     }
 
     /**
@@ -54,9 +70,15 @@ class Context
      *
      * @return array 请求数据数组
      */
-    public function data()
+    public function data($field = false, $default = false)
     {
-        return json_decode(file_get_contents('php://input'), true);
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if ($field) {
+            return isset($data[$field]) ? $data[$field] : $default;
+        }
+
+        return $data;
     }
 
     /**
@@ -78,5 +100,10 @@ class Context
     public function response($result = '', $statusCode = 200)
     {
         return response(json_encode($result), $statusCode)->header('Content-Type', 'application/json');
+    }
+
+    public function result($status, $data = null, $statusCode = 200)
+    {
+        return $this->response(Status::result($status, $data));
     }
 }

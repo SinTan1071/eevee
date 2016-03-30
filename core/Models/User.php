@@ -40,7 +40,7 @@ class User extends Model
 
           $this->processPassword();
 
-          if ($this->getTable('USER')->insert($this->user)) {
+          if ($this->resource('USER')->insert($this->user)) {
               return $this->getUser($this->user['id']);
           };
 
@@ -75,15 +75,7 @@ class User extends Model
      */
     public function getUser($user_id, $password = false)
     {
-        $user = $this->getTable('USER')->where('id', $user_id)->first();
-
-        print_r($user);
-
-        if ($user && !$password) {
-            unset($user->password);
-        }
-
-        return $this->result('success', $user);
+        return $this->getUserRow('id', $user_id, $password);
     }
 
     /**
@@ -93,9 +85,9 @@ class User extends Model
      *
      * @return $user
      */
-    public function getUserByUsername($username)
+    public function getUserByUsername($username, $password = false)
     {
-
+        return $this->getUserRow('username', $username, $password);
     }
 
     /**
@@ -105,8 +97,33 @@ class User extends Model
      *
      * @return $user
      */
-    public function getUserByEmail($email)
+    public function getUserByEmail($email, $password = false)
     {
+        return $this->getUserRow('email', $email, $password);
+    }
+
+    /**
+     * 获取用户记录.
+     *
+     * @param string $field
+     * @param mixed  $value
+     * @param bool   $password
+     *
+     * @return $user
+     */
+    protected function getUserRow($field, $vlaue, $password = false)
+    {
+        $user = $this->resource('USER')->where($field, $vlaue)->first();
+
+        if (!$user) {
+            return $this->result('userDoesNotExist', $user);
+        }
+
+        if (!$password) {
+            unset($user->password);
+        }
+
+        return $this->result('success', $user);
     }
 
     /**
@@ -122,7 +139,7 @@ class User extends Model
 
         // $result = $selector->parse($params);
 
-        // $result = $this->resource($this->getTable('USER'), $params);
+        // $result = $this->resource($this->resource('USER'), $params);
 
         // if ($result->code == 200 && !$password) {
         //     foreach ($result->data as $key => $item) {
@@ -137,28 +154,43 @@ class User extends Model
         return $params;
     }
 
-    public function saveUserToken($user, $client = '', $expire = true)
+    /**
+     * 生成用户Token，存放在数据库中.
+     *
+     * @param stdClass $user
+     * @param string   $app_id
+     *
+     * @return string
+     */
+    public function generateUserToken($user, $app_id)
     {
         $row = [
-          'user_token' => uniqid(),
+          'app_id' => $app_id,
           'user_id' => $user->id,
-          'app_id' => $client->ident,
+          'user_token' => sha1(uniqid($user->password)),
         ];
 
-        $table = $this->getTable('USERTOKEN');
+        return $this->saveUserToken($row);
+    }
 
-        if ($table->where('user_id', $user->id)->first()) {
-            $table->where('user_id', $user->id)->update($row);
+    protected function saveUserToken($row)
+    {
+        $table = $this->resource('USERTOKEN');
+
+        $where = $table->where('app_id', $row['app_id'])->where('user_id', $row['user_id']);
+
+        if ($where->first()) {
+            $result = $table->update($row);
         } else {
-            return $this->getTable('USERTOKEN')->insert($row);
+            $result = $table->insert($row);
         }
 
-        return $row['user_token'];
+        return $result ? $row['user_token'] : false;
     }
 
     public function getUserByToken($token)
     {
-        $table = $this->getTable('USERTOKEN');
+        $table = $this->resource('USERTOKEN');
 
         if ($row = $table->where('user_token', $token)->first()) {
             return $row;
@@ -177,7 +209,7 @@ class User extends Model
     protected function initializeUser($user)
     {
         $initialized = [
-         'id' => $this->getID(),
+         'id' => $this->id(),
          'role' => config('site.user.role', 'member'),
          'status' => config('site.user.status', 0),
         ];
@@ -187,7 +219,7 @@ class User extends Model
 
     protected function validateUser()
     {
-        $table = $this->getTableName('USER');
+        $table = $this->table('USER');
 
         $validator = Validator::make($this->user, [
                 'username' => "required|unique:$table|max:255",
@@ -208,7 +240,7 @@ class User extends Model
         return true;
     }
 
-    protected function authPassword($origin, $password)
+    public function authPassword($origin, $password)
     {
         return $this->encryptPassword($origin) == $password;
     }

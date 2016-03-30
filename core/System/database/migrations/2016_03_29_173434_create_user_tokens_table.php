@@ -10,7 +10,7 @@ class CreateUserTokensTable extends Migration
     {
         Schema::create('user_tokens', function (Blueprint $table) {
           $table->string('app_id');
-          $table->integer('user_id');
+          $table->string('user_id');
           $table->string('user_token')->unique();
           $table->primary('app_id','user_id');
         });

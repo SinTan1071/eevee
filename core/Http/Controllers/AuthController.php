@@ -3,70 +3,61 @@
 namespace Core\Http\Controllers;
 
 use Core\Models\User;
-use Core\Services\Status;
 use Core\Services\Context;
 
 class AuthController extends Controller
 {
-    // 用户登陆
+    /**
+     * 用户登录.
+     *
+     * @param Context $context
+     */
     public function login(Context $context)
     {
-        $mode = $context->params('mode');
-        $context->guest = $context->data();
+        //获取请求信息
+        $mode = $context->params('mode', 'username');
 
-        if ($mode == 'mail') {
-            return $this->loginByMail($context);
-        } else {
-            return $this->loginByUsername($context);
-        }
-    }
+        $account = $context->data('account');
 
-    protected function loginByUsername($context)
-    {
+        $password = $context->data('password');
+
+        $app_id = $context->header('X-APP-ID', true);
+
         $model = new User();
 
-        $status = new Status();
-
-        $result = $model->get(['username' => $context->guest['username']], true);
-
-        if ($result->code != 200) {
-            return $context->response($result);
+        // 判断登录方式
+        switch ($mode) {
+          case 'email':
+            $result = $model->getUserByEmail($account, true);
+            break;
+          default:
+            $result = $model->getUserByUsername($account, true);
+            break;
         }
 
-        $user = $result->data[0];
-
-        if ($user->password != $model->encryptPassword($context->guest['password'])) {
-            $result = $status->result('invialidPasswordOrUsername');
-
-            return $context->response($result);
+        // 验证密码
+        if ($result->code != 200 || !$model->authPassword($password, $result->data->password)) {
+            return $context->result('invialidAccountOrUsername');
         }
 
-        $user->access_token = $model->accessToken((array) $user);
+
+        $user = $result->data;
+
+        // 生成 Token
+        if (!($user->user_token = $model->generateUserToken($user, $app_id))) {
+            return $context->result('generateUserTokenError');
+        };
 
         unset($user->password);
 
-        return $context->response($status->result('success', $user));
-    }
-
-    protected function loginByMail()
-    {
-
+        return $context->result('success', $user);
     }
 
     /**
-     * 保存 access token
-     * 如果token存在则更新token，如果不存在则插入记录。
+     * 用户注册.
      *
-     * @param  string $user_id
-     *
+     * @param Context $context
      */
-    protected function  saveAccessToken($user_id){
-        $model = new User();
-
-        $user = $model->get(['id'=>$user_id]);
-    }
-
-    // 用户注册
     public function register(Context $context)
     {
         $data = $context->data();
