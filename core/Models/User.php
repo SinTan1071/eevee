@@ -103,6 +103,24 @@ class User extends Model
     }
 
     /**
+     * 通过用户TOKEN获取用户.
+     *
+     * @param string $token
+     *
+     * @return $user
+     */
+    public function getUserByToken($token)
+    {
+        $table = $this->resource('USERTOKEN');
+
+        if (!($row = $table->where('user_token', $token)->first())) {
+            return $this->result('userTokenDoesNotExist');
+        }
+
+        return $this->getUserRow('id', $row->user_id, true);
+    }
+
+    /**
      * 获取用户记录.
      *
      * @param string $field
@@ -186,24 +204,6 @@ class User extends Model
         }
 
         return $result ? $row['user_token'] : false;
-    }
-
-    /**
-     * 通过用户TOKEN获取用户.
-     *
-     * @param string $token
-     *
-     * @return $user
-     */
-    public function getUserByToken($token)
-    {
-        $table = $this->resource('USERTOKEN');
-
-        if (!($row = $table->where('user_token', $token)->first())) {
-            return $this->result('userTokenDoesNotExist');
-        }
-
-        return $this->getUserRow('id', $row->user_id, true);
     }
 
     /**
