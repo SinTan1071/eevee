@@ -77,11 +77,36 @@ class User extends Model
     {
         $user = $this->getTable('USER')->where('id', $user_id)->first();
 
+        print_r($user);
+
         if ($user && !$password) {
             unset($user->password);
         }
 
         return $this->result('success', $user);
+    }
+
+    /**
+     * 通过用户名获取用户.
+     *
+     * @param string $username
+     *
+     * @return $user
+     */
+    public function getUserByUsername($username)
+    {
+
+    }
+
+    /**
+     * 通过邮箱获取用户.
+     *
+     * @param sting $email $email
+     *
+     * @return $user
+     */
+    public function getUserByEmail($email)
+    {
     }
 
     /**
@@ -112,7 +137,7 @@ class User extends Model
         return $params;
     }
 
-    public function saveUserToken($user, $client='', $expire = true)
+    public function saveUserToken($user, $client = '', $expire = true)
     {
         $row = [
           'user_token' => uniqid(),
@@ -130,8 +155,6 @@ class User extends Model
 
         return $row['user_token'];
     }
-
-
 
     public function getUserByToken($token)
     {
@@ -183,6 +206,11 @@ class User extends Model
     protected function validateRole()
     {
         return true;
+    }
+
+    protected function authPassword($origin, $password)
+    {
+        return $this->encryptPassword($origin) == $password;
     }
 
     protected function processPassword()

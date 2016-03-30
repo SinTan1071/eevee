@@ -106,7 +106,7 @@ return [
       'username' => '用户名',
       'password' => '密码',
       'role' => '角色',
-      'mail' => '邮箱',
+      'email' => '邮箱',
     ],
 
 ];
