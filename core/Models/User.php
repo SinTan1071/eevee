@@ -199,11 +199,11 @@ class User extends Model
     {
         $table = $this->resource('USERTOKEN');
 
-        if ($row = $table->where('user_token', $token)->first()) {
-            return $row;
+        if (!($row = $table->where('user_token', $token)->first())) {
+            return $this->result('userTokenDoesNotExist');
         }
 
-        return false;
+        return $this->getUserRow('id', $row->user_id, true);
     }
 
     /**
